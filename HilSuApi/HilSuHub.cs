@@ -6,11 +6,11 @@ namespace HilSuApi
 {
     public class HilariousHub
     {
-        protected string _baseURL = "https://api.hil.su/v2/";
-        protected string _baseURLv0 = "https://api.hil.su/v0/";
-        protected string _token;
-        protected string _user;
-        protected string _password;
+        protected static string _baseURL = "https://api.hil.su/v2/";
+        protected static string _baseURLv0 = "https://api.hil.su/v0/";
+        protected static string _token;
+        protected static string _user;
+        protected static string _password;
 
         // Конструктур с наличием токена
         public HilariousHub(string token)
@@ -27,23 +27,19 @@ namespace HilSuApi
             _user = nickname;
             _password = password;
         }
-
-        public class Economy : HilariousHub
+        /// <summary>
+        /// Получить топ игроков по валюте
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <param name="currency"></param>
+        public static string TopPlayers(int limit, string currency = "coins")
         {
-            /// <summary>
-            /// Получить топ игроков по валюте
-            /// </summary>
-            /// <param name="limit"></param>
-            /// <param name="currency"></param>
-            public string TopPlayers(int limit, string currency = "coins")
-            {
-                HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency}");
-                string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-                return answer;
-            }
+            HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return answer;
         }
 
-        protected HttpWebResponse Request(string suburl, string parametrs)
+        protected static HttpWebResponse Request(string suburl, string parametrs)
         {
             return (HttpWebResponse)WebRequest.Create($"{_baseURL}{suburl}?{parametrs}").GetResponse();
         }
