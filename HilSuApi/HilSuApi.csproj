@@ -2,10 +2,45 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	<LangVersion>10.0</LangVersion>
+	<AnalysisLevel>none</AnalysisLevel>
+	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Authors>Nikolay Yurchenko</Authors>
+	<Description>Library for working with hil.su API in .NET langueges</Description>
+	<Copyright>Developed by kolya112</Copyright>
+	<PackageProjectUrl></PackageProjectUrl>
+	<PackageIcon>Hilarious_icon.png</PackageIcon>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+	<FileVersion>1.0.0</FileVersion>
+	<PackageTags>Hilarious; hil.su; API; Hilarious Minecraft;</PackageTags>
+	<RepositoryUrl>https://github.com/kolya112/HilSuApi</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="E:\Downloads_chrome\Hilarious_icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
