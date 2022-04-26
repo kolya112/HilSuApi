@@ -25,4 +25,16 @@ namespace HilSuApi
     {
         public EconomyCurrencyException() : base() { }
     }
+
+    // Ошибка отображения онлайна серверов
+    internal class OnlineCheckException : Exception
+    {
+        public OnlineCheckException() : base() { }
+    }
+
+    // Ошибка получения токена
+    internal class TokenReferenceException: Exception
+    {
+        public TokenReferenceException() : base() { }
+    }
 }
