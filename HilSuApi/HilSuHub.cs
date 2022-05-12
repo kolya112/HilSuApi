@@ -37,17 +37,20 @@ namespace HilSuApi
 
         }
 
+        public enum Currency
+        {
+            Coins,
+            Gems
+        }
+
         /// <summary>
         /// Получить топ игроков по валюте
         /// </summary>
         /// <param name="limit">Лимит выданных пользователей</param>
         /// <param name="currency">Валюта из топа игроков</param>
-        public string TopPlayers(int limit, string currency = "coins")
+        public string TopPlayers(int limit, Currency currency)
         {
-            if (currency != "coins" || currency != "gems")
-                throw new EconomyCurrencyException();
-
-            HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency}");
+            HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
         }
