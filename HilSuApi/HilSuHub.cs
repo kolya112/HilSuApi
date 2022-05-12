@@ -11,8 +11,8 @@ namespace HilSuApi
 {
     public class HilariousHub
     {
-        protected readonly static string _baseURL = "https://api.hil.su/v2/";
-        protected readonly static string _baseURLv0 = "https://hil.su/api/v0/";
+        protected const string _baseURL = "https://api.hil.su/v2/";
+        protected const string _baseURLv0 = "https://hil.su/api/v0/";
         protected static string _token;
         protected static string _userToken;
         protected static string _user;
@@ -55,7 +55,13 @@ namespace HilSuApi
             return answer;
         }
 
-        public string ServersOnline()
+        /// <summary>
+        /// Получить информацию о серверах
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException">Для этого метода требуется токен доступа</exception>
+        /// <exception cref="OnlineCheckException">Произошла ошибка в запросе для получения информации о серверах</exception>
+        public string ServersMonitoring()
         {
             if (_userToken == null)
                 throw new TokenReferenceException();
