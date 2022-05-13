@@ -20,12 +20,6 @@ namespace HilSuApi
         public RequestArgumentException() : base() { }
     }
 
-    // Введена несуществующая валюта
-    internal class EconomyCurrencyException : Exception
-    {
-        public EconomyCurrencyException() : base() { }
-    }
-
     // Ошибка отображения онлайна серверов
     internal class OnlineCheckException : Exception
     {
@@ -36,5 +30,11 @@ namespace HilSuApi
     internal class TokenReferenceException: Exception
     {
         public TokenReferenceException() : base() { }
+    }
+
+    // Привышен лимит игроков в запросе богатых игроков
+    internal class TopPlayersLimitException : Exception
+    {
+        public TopPlayersLimitException() : base() { }
     }
 }

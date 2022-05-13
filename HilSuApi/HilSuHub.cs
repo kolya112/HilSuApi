@@ -50,6 +50,8 @@ namespace HilSuApi
         /// <param name="currency">Валюта из топа игроков</param>
         public string TopPlayers(int limit, Currency currency)
         {
+            if (limit > 100)
+                throw new TopPlayersLimitException();
             HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
