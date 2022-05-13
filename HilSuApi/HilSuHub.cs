@@ -90,5 +90,20 @@ namespace HilSuApi
             else
                 throw new RequestArgumentException();
         }
+
+        /// <summary>
+        /// Получить баланс авторизованного аккаунта
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        public string GetMyBalance()
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            HttpWebResponse request = Request("economy/balance", $"accessToken={_userToken}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return JObject.Parse(answer).SelectToken("response.balances").ToString();
+        }
     }
 }
