@@ -96,14 +96,17 @@ namespace HilSuApi
         /// </summary>
         /// <returns></returns>
         /// <exception cref="TokenReferenceException"></exception>
-        public string GetMyBalance()
+        public string GetMyBalance(Currency currency)
         {
             if (_userToken == null)
                 throw new TokenReferenceException();
 
             HttpWebResponse request = Request("economy/balance", $"accessToken={_userToken}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-            return JObject.Parse(answer).SelectToken("response.balances").ToString();
+            string status = JObject.Parse(answer).SelectToken("success").ToString();
+            if (status == "false")
+                throw new BalanceCheckException();
+            return JObject.Parse(answer).SelectToken($"response.balances.{currency.ToString().ToLower()}").ToString();
         }
     }
 }

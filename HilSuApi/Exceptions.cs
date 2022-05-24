@@ -37,4 +37,10 @@ namespace HilSuApi
     {
         public TopPlayersLimitException() : base() { }
     }
+
+    // Ошибка при получении баланса на аккаунте
+    internal class BalanceCheckException : Exception
+    {
+        public BalanceCheckException() : base() { }
+    }
 }
