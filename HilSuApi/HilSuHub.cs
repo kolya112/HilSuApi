@@ -32,7 +32,7 @@ namespace HilSuApi
         /// <summary>
         /// Авторизация без пользовательского токена, доступ ограничен
         /// </summary>
-        public HilariousHub() 
+        public HilariousHub()
         {
 
         }
@@ -107,6 +107,62 @@ namespace HilSuApi
             if (status == "false")
                 throw new BalanceCheckException();
             return JObject.Parse(answer).SelectToken($"response.balances.{currency.ToString().ToLower()}").ToString();
+        }
+
+        /*
+        /// <summary>
+        /// Сделать перевод другому пользователю через UID
+        /// </summary>
+        /// <param name="currency">Валюта</param>
+        /// <param name="UID">уникальный индентификатор</param>
+        /// <param name="amount">сумма</param>
+        /// <param name="description">описание</param>
+        /// <returns></returns>
+        public string TransferByUID(Currency currency, ulong UID, double amount, string description)
+        {
+            string result = "";
+            return result;
+        }
+
+        /// <summary>
+        /// Сделать перевод другому пользователю через никнейм
+        /// </summary>
+        /// <param name="currency">валюта</param>
+        /// <param name="nickname">игровой ник</param>
+        /// <param name="amount">сумма</param>
+        /// <param name="description">описание</param>
+        /// <returns></returns>
+        public string TransferByName(Currency currency, string nickname, double amount, string description)
+        {
+            string result = "";
+            return result;
+        }*/
+
+        /*/// <summary>
+        /// Получение списка переводов
+        /// </summary>
+        /// <param name="currency">валюта</param>
+        /// <param name="limit">лимит записей</param>
+        /// <param name="offset">смещение в списке</param>
+        /// <returns></returns>
+        public string GetTransfers(Currency currency, int limit = 100, int offset)
+        {
+
+        }*/
+
+        /// <summary>
+        /// Получение количества переводов
+        /// </summary>
+        /// <param name="currency">валюта</param>
+        /// <returns></returns>
+        public string GetTransfersCount(Currency currency)
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            HttpWebResponse request = Request("economy/transferCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return answer;
         }
     }
 }
