@@ -137,8 +137,8 @@ namespace HilSuApi
             string result = "";
             return result;
         }*/
-
-        /*/// <summary>
+        
+        /// <summary>
         /// Получение списка переводов
         /// </summary>
         /// <param name="currency">валюта</param>
@@ -147,8 +147,13 @@ namespace HilSuApi
         /// <returns></returns>
         public string GetTransfers(Currency currency, int limit = 100, int offset)
         {
+            if (_userToken == null)
+                throw new TokenReferenceException();
 
-        }*/
+            HttpWebResponse request = Request("economy/transfers", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}&limit={limit}&offset={offset}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return answer;
+        }
 
         /// <summary>
         /// Получение количества переводов
