@@ -185,5 +185,39 @@ namespace HilSuApi
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
         }
+
+        /// <summary>
+        /// Получение списка изменений за определённый день и из определённого источника
+        /// </summary>
+        /// <param name="currency">валюта</param>
+        /// <param name="limit">лимит записей</param>
+        /// <param name="offset">смещение в списке</param>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        public string GetChanges(Currency currency, int limit, int offset)
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            HttpWebResponse request = Request("economy/changes", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}&limit={limit}&offset={offset}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return answer;
+        }
+
+        /*/// <summary>
+        /// Получение количества записей в списке изменений
+        /// </summary>
+        /// <param name="currency">валюта</param>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        public string GetTransfersCount(Currency currency)
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            HttpWebResponse request = Request("economy/transferCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return answer;
+        }*/
     }
 }
