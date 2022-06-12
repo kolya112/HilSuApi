@@ -127,12 +127,12 @@ namespace HilSuApi
             string success = JObject.Parse(str).SelectToken("success").ToString();
 
             if (success == "false")
-                throw new AuthException();
+                throw new TransferException();
 
             return str;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Сделать перевод другому пользователю через никнейм
         /// </summary>
         /// <param name="currency">валюта</param>
@@ -140,11 +140,19 @@ namespace HilSuApi
         /// <param name="amount">сумма</param>
         /// <param name="description">описание</param>
         /// <returns></returns>
-        public string TransferByName(Currency currency, string nickname, double amount, string description)
+        public async Task<string> TransferByNameAsync(Currency currency, string nickname, decimal amount, string description = "")
         {
-            string result = "";
-            return result;
-        }*/
+            var stringContent = new StringContent("{\"currency\":\"" + currency.ToString().ToLower() + "\",\"targetName\":\"" + nickname + "\",\"amount\":\"" + amount + "\",\"description\":\"" + description + "\"}", Encoding.UTF8, "application/json");
+            var response = await new HttpClient().PostAsync("https://api.hil.su/v2/economy/transfer", stringContent);
+            string str = await response.Content.ReadAsStringAsync();
+
+            string success = JObject.Parse(str).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
+            return str;
+        }
 
         /// <summary>
         /// Получение списка переводов
