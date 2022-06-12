@@ -204,20 +204,20 @@ namespace HilSuApi
             return answer;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Получение количества записей в списке изменений
         /// </summary>
         /// <param name="currency">валюта</param>
         /// <returns></returns>
         /// <exception cref="TokenReferenceException"></exception>
-        public string GetTransfersCount(Currency currency)
+        public string GetChangesCount(Currency currency)
         {
             if (_userToken == null)
                 throw new TokenReferenceException();
 
-            HttpWebResponse request = Request("economy/transferCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
+            HttpWebResponse request = Request("economy/changesCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
-        }*/
+        }
     }
 }
