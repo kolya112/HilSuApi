@@ -118,7 +118,7 @@ namespace HilSuApi
         /// <param name="amount">сумма</param>
         /// <param name="description">описание</param>
         /// <returns></returns>
-        public static async Task<string> TransferByUUIDAsync(Currency currency, ulong UUID, decimal amount, string description = "")
+        public async Task<string> TransferByUUIDAsync(Currency currency, ulong UUID, decimal amount, string description = "")
         {
             var stringContent = new StringContent("{\"currency\":\"" + currency.ToString().ToLower() + "\",\"targetId\":\"" + UUID + "\",\"amount\":\"" + amount +"\",\"description\":\"" + description + "\"}", Encoding.UTF8, "application/json");
             var response = await new HttpClient().PostAsync("https://api.hil.su/v2/economy/transfer", stringContent);
@@ -131,6 +131,7 @@ namespace HilSuApi
 
             return str;
         }
+
         /*/// <summary>
         /// Сделать перевод другому пользователю через никнейм
         /// </summary>
