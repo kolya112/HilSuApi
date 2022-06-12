@@ -145,7 +145,7 @@ namespace HilSuApi
         /// <param name="limit">лимит записей</param>
         /// <param name="offset">смещение в списке</param>
         /// <returns></returns>
-        public string GetTransfers(Currency currency, int limit = 100, int offset)
+        public string GetTransfers(Currency currency, int offset, int limit = 100)
         {
             if (_userToken == null)
                 throw new TokenReferenceException();
