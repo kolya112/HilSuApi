@@ -109,22 +109,29 @@ namespace HilSuApi
             return JObject.Parse(answer).SelectToken($"response.balances.{currency.ToString().ToLower()}").ToString();
         }
 
-        /*
+        
         /// <summary>
-        /// Сделать перевод другому пользователю через UID
+        /// Сделать перевод другому пользователю через UUID
         /// </summary>
         /// <param name="currency">Валюта</param>
         /// <param name="UID">уникальный индентификатор</param>
         /// <param name="amount">сумма</param>
         /// <param name="description">описание</param>
         /// <returns></returns>
-        public string TransferByUID(Currency currency, ulong UID, double amount, string description)
+        public static async Task<string> TransferByUUIDAsync(Currency currency, ulong UUID, decimal amount, string description = "")
         {
-            string result = "";
-            return result;
-        }
+            var stringContent = new StringContent("{\"currency\":\"" + currency.ToString().ToLower() + "\",\"targetId\":\"" + UUID + "\",\"amount\":\"" + amount +"\",\"description\":\"" + description + "\"}", Encoding.UTF8, "application/json");
+            var response = await new HttpClient().PostAsync("https://api.hil.su/v2/economy/transfer", stringContent);
+            string str = await response.Content.ReadAsStringAsync();
 
-        /// <summary>
+            string success = JObject.Parse(str).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new AuthException();
+
+            return str;
+        }
+        /*/// <summary>
         /// Сделать перевод другому пользователю через никнейм
         /// </summary>
         /// <param name="currency">валюта</param>
@@ -137,7 +144,7 @@ namespace HilSuApi
             string result = "";
             return result;
         }*/
-        
+
         /// <summary>
         /// Получение списка переводов
         /// </summary>
