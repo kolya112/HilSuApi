@@ -28,15 +28,6 @@ namespace HilSuApi
             _userToken = token;
         }
 
-        // Конструктур без наличия токена
-        /// <summary>
-        /// Авторизация без пользовательского токена, доступ ограничен
-        /// </summary>
-        public HilariousHub()
-        {
-
-        }
-
         public enum Currency
         {
             Coins,
@@ -48,7 +39,7 @@ namespace HilSuApi
         /// </summary>
         /// <param name="limit">Лимит выданных пользователей</param>
         /// <param name="currency">Валюта из топа игроков</param>
-        public string TopPlayers(int limit, Currency currency)
+        public static string TopPlayers(int limit, Currency currency)
         {
             if (limit > 100)
                 throw new TopPlayersLimitException();
