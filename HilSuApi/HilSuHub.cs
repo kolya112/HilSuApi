@@ -339,6 +339,31 @@ namespace HilSuApi
             return JObject.Parse(result).SelectToken("response").ToString();
         }
 
+        /// <summary>
+        /// Получить полную информацию об аккаунте
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        /// <exception cref="UserInfoCheckException"></exception>
+        public string GetUserInfoIndex()
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            WebRequest request = WebRequest.Create($"{_baseURLv0}user/info/index");
+            request.Headers.Add("Authorization", $"Bearer {_userToken}");
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(result).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new UserInfoCheckException();
+
+            return JObject.Parse(result).SelectToken("response").ToString();
+        }
+
         protected static HttpWebResponse Request(string suburl, string parametrs = "", string version = "v2", string type = "url")
         {
             if (version == "v2")

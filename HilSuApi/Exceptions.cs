@@ -63,4 +63,9 @@ namespace HilSuApi
     {
         public JobsCheckException() : base() { }
     }
+
+    public class UserInfoCheckException : Exception
+    {
+        public UserInfoCheckException() : base() { }
+    }
 }
