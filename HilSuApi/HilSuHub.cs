@@ -216,7 +216,7 @@ namespace HilSuApi
             string success = JObject.Parse(result).SelectToken("success").ToString();
 
             if (success == "false")
-                throw new TransferException();
+                throw new ExperienceCheckException();
 
            return Convert.ToInt32(JObject.Parse(result).SelectToken("response.level").ToString());
         }
@@ -235,7 +235,7 @@ namespace HilSuApi
             string success = JObject.Parse(result).SelectToken("success").ToString();
 
             if (success == "false")
-                throw new TransferException();
+                throw new ExperienceCheckException();
 
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.exp").ToString());
         }
@@ -254,7 +254,7 @@ namespace HilSuApi
             string success = JObject.Parse(result).SelectToken("success").ToString();
 
             if (success == "false")
-                throw new TransferException();
+                throw new ExperienceCheckException();
 
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.nextLevelExp").ToString());
         }
@@ -266,7 +266,7 @@ namespace HilSuApi
             string success = JObject.Parse(answer).SelectToken("success").ToString();
 
             if (success == "false")
-                throw new TransferException();
+                throw new StaffCheckException();
 
             return JObject.Parse(answer).SelectToken("response.staff").ToString();
         }
