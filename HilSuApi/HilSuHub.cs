@@ -7,6 +7,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
+// TODO
+// /v0/support/ticket/new - post
+// /v0/support/servers
+// /v2/support/categories - auth
+// https://api.hil.su/v0/updates
+// https://api.hil.su/v0/announces
+// https://api.hil.su/v0/streams
+// https://api.hil.su/v0/user/reward/return - auth
+// https://api.hil.su/v0/stats/chat
+// https://api.hil.su/v0/stats/wipe
+
 namespace HilSuApi
 {
     public class HilariousHub
