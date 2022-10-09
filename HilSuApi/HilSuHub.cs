@@ -150,6 +150,11 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/transfers", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}&limit={limit}&offset={offset}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(answer).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
             return answer;
         }
 
@@ -165,6 +170,11 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/transfersCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(answer).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
             return answer;
         }
 
@@ -183,6 +193,11 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/changes", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}&limit={limit}&offset={offset}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(answer).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
             return answer;
         }
 
@@ -199,6 +214,11 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/changesCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(answer).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
             return answer;
         }
 
