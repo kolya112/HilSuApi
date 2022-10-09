@@ -58,4 +58,9 @@ namespace HilSuApi
     {
         public StaffCheckException() : base() { }
     }
+
+    public class JobsCheckException : Exception
+    {
+        public JobsCheckException() : base() { }
+    }
 }
