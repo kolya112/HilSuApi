@@ -202,6 +202,12 @@ namespace HilSuApi
             return answer;
         }
 
+        /// <summary>
+        /// Получить уровень стажа своего аккаунта
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        /// <exception cref="ExperienceCheckException"></exception>
         public int GetLevel()
         {
             if (_userToken == null)
@@ -221,6 +227,12 @@ namespace HilSuApi
            return Convert.ToInt32(JObject.Parse(result).SelectToken("response.level").ToString());
         }
 
+        /// <summary>
+        /// Получить опыт своего аккаунта
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        /// <exception cref="ExperienceCheckException"></exception>
         public int GetExp()
         {
             if (_userToken == null)
@@ -239,7 +251,13 @@ namespace HilSuApi
 
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.exp").ToString());
         }
-
+        
+        /// <summary>
+        /// Получить количество опыта до получения следующего уровня стажа
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TokenReferenceException"></exception>
+        /// <exception cref="ExperienceCheckException"></exception>
         public int GetNextLevelExp()
         {
             if (_userToken == null)
@@ -259,6 +277,11 @@ namespace HilSuApi
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.nextLevelExp").ToString());
         }
 
+        /// <summary>
+        /// Получить список команды проекта
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="StaffCheckException"></exception>
         public static string GetStaff()
         {
             HttpWebResponse request = Request("staff/list");
