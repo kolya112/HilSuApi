@@ -48,4 +48,14 @@ namespace HilSuApi
     {
         public TransferException() : base() { }
     }
+
+    public class ExperienceCheckException : Exception
+    {
+        public ExperienceCheckException() : base() { }
+    }
+
+    public class StaffCheckException : Exception
+    {
+        public StaffCheckException() : base() { }
+    }
 }
