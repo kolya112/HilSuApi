@@ -72,16 +72,6 @@ namespace HilSuApi
             return result;
         }
 
-        protected static HttpWebResponse Request(string suburl, string parametrs, string version = "v2", string type = "url")
-        {
-            if (version == "v2")
-                return (HttpWebResponse)WebRequest.Create($"{_baseURL}{suburl}?{parametrs}").GetResponse();
-            else if (version == "v0")
-                return (HttpWebResponse)WebRequest.Create($"{_baseURLv0}{suburl}?{parametrs}").GetResponse();
-            else
-                throw new RequestArgumentException();
-        }
-
         /// <summary>
         /// Получить баланс авторизованного аккаунта
         /// </summary>
@@ -210,5 +200,73 @@ namespace HilSuApi
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
         }
+
+        public int GetLevel()
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            WebRequest request = WebRequest.Create($"{_baseURL}experience");
+            request.Headers.Add("Authorization", $"Bearer {_userToken}");
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(result).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
+           return Convert.ToInt32(JObject.Parse(result).SelectToken("response.level").ToString());
+        }
+
+        public int GetExp()
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            WebRequest request = WebRequest.Create($"{_baseURL}experience");
+            request.Headers.Add("Authorization", $"Bearer {_userToken}");
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(result).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
+            return Convert.ToInt32(JObject.Parse(result).SelectToken("response.exp").ToString());
+        }
+
+        public int GetNextLevelExp()
+        {
+            if (_userToken == null)
+                throw new TokenReferenceException();
+
+            WebRequest request = WebRequest.Create($"{_baseURL}experience");
+            request.Headers.Add("Authorization", $"Bearer {_userToken}");
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(result).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
+            return Convert.ToInt32(JObject.Parse(result).SelectToken("response.nextLevelExp").ToString());
+        }
+
+        protected static HttpWebResponse Request(string suburl, string parametrs, string version = "v2", string type = "url")
+        {
+            if (version == "v2")
+                return (HttpWebResponse)WebRequest.Create($"{_baseURL}{suburl}?{parametrs}").GetResponse();
+            else if (version == "v0")
+                return (HttpWebResponse)WebRequest.Create($"{_baseURLv0}{suburl}?{parametrs}").GetResponse();
+            else
+                throw new RequestArgumentException();
+        }
+
     }
 }
