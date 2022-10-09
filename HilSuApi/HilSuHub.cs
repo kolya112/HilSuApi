@@ -43,6 +43,7 @@ namespace HilSuApi
         {
             if (limit > 100)
                 throw new TopPlayersLimitException();
+
             HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
@@ -258,7 +259,19 @@ namespace HilSuApi
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.nextLevelExp").ToString());
         }
 
-        protected static HttpWebResponse Request(string suburl, string parametrs, string version = "v2", string type = "url")
+        public static string GetStaff()
+        {
+            HttpWebResponse request = Request("staff/list");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string success = JObject.Parse(answer).SelectToken("success").ToString();
+
+            if (success == "false")
+                throw new TransferException();
+
+            return JObject.Parse(answer).SelectToken("response.staff").ToString();
+        }
+
+        protected static HttpWebResponse Request(string suburl, string parametrs = "", string version = "v2", string type = "url")
         {
             if (version == "v2")
                 return (HttpWebResponse)WebRequest.Create($"{_baseURL}{suburl}?{parametrs}").GetResponse();
