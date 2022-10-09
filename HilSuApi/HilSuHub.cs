@@ -163,7 +163,7 @@ namespace HilSuApi
             if (_userToken == null)
                 throw new TokenReferenceException();
 
-            HttpWebResponse request = Request("economy/transferCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
+            HttpWebResponse request = Request("economy/transfersCount", $"accessToken={_userToken}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
             return answer;
         }
