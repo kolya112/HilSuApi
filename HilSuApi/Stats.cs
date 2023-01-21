@@ -49,7 +49,7 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-            return answer;
+            return JObject.Parse(answer).SelectToken("response").ToString();
         }
     }
 }
