@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 // https://api.hil.su/v0/user/reward/return - auth
 // https://api.hil.su/v0/stats/chat
 // https://api.hil.su/v0/stats/wipe
+// /v0/user/page - auth
 
 namespace HilSuApi
 {
@@ -39,26 +40,21 @@ namespace HilSuApi
             _userToken = token;
         }
 
+        /// <summary>
+        /// Авторизация без пользовательского токена
+        /// </summary>
+        public HilariousHub()
+        {
+
+        }
+
         public enum Currency
         {
             Coins,
             Gems
         }
 
-        /// <summary>
-        /// Получить топ игроков по валюте
-        /// </summary>
-        /// <param name="limit">Лимит выданных пользователей</param>
-        /// <param name="currency">Валюта из топа игроков</param>
-        public static string TopPlayers(int limit, Currency currency)
-        {
-            if (limit > 100)
-                throw new TopPlayersLimitException();
-
-            HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
-            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-            return answer;
-        }
+        public partial class Common : HilSuApi.Common { }
 
         /// <summary>
         /// Получить информацию о серверах
@@ -67,22 +63,22 @@ namespace HilSuApi
         /// <exception cref="TokenReferenceException">Для этого метода требуется токен доступа</exception>
         /// <exception cref="OnlineCheckException">Произошла ошибка в запросе для получения информации о серверах</exception>
         public string ServersMonitoring()
-        {
-            if (_userToken == null)
-                throw new TokenReferenceException();
+    {
+        if (_userToken == null)
+            throw new TokenReferenceException();
 
-            WebRequest request = WebRequest.Create($"{_baseURLv0}monitoring/players");
-            request.Headers.Add("Authorization", $"Bearer {_userToken}");
-            request.ContentType = "application/json";
-            request.Method = "GET";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string answer = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            string status = JObject.Parse(answer).SelectToken("success").ToString();
-            if (status == "false")
-                throw new OnlineCheckException();
-            string result = JObject.Parse(answer).SelectToken("response").ToString();
-            return result;
-        }
+        WebRequest request = WebRequest.Create($"{_baseURLv0}monitoring/players");
+        request.Headers.Add("Authorization", $"Bearer {_userToken}");
+        request.ContentType = "application/json";
+        request.Method = "GET";
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        string answer = new StreamReader(response.GetResponseStream()).ReadToEnd();
+        string status = JObject.Parse(answer).SelectToken("success").ToString();
+        if (status == "false")
+            throw new OnlineCheckException();
+        string result = JObject.Parse(answer).SelectToken("response").ToString();
+        return result;
+    }
 
         /// <summary>
         /// Получить баланс авторизованного аккаунта
@@ -306,23 +302,6 @@ namespace HilSuApi
                 throw new ExperienceCheckException();
 
             return Convert.ToInt32(JObject.Parse(result).SelectToken("response.nextLevelExp").ToString());
-        }
-
-        /// <summary>
-        /// Получить список команды проекта
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="StaffCheckException"></exception>
-        public static string GetStaff()
-        {
-            HttpWebResponse request = Request("staff/list");
-            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-            string success = JObject.Parse(answer).SelectToken("success").ToString();
-
-            if (success == "false")
-                throw new StaffCheckException();
-
-            return JObject.Parse(answer).SelectToken("response.staff").ToString();
         }
 
         /// <summary>
