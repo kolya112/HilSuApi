@@ -11,6 +11,8 @@ namespace HilSuApi
 {
     public partial class User : HilariousHub
     {
+        public User (string token) : base(token) { }
+
         /// <summary>
         /// Получить баланс авторизованного аккаунта
         /// </summary>

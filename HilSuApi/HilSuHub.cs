@@ -55,7 +55,12 @@ namespace HilSuApi
         }
 
         public partial class Common : HilSuApi.Common { }
-        public partial class User : HilSuApi.User { }
+        public partial class User : HilSuApi.User
+        {
+            public User(string token) : base(token)
+            {
+            }
+        }
         public partial class Stats : HilSuApi.Stats { }
 
         protected static HttpWebResponse Request(string suburl, string parametrs = "", string version = "v2", string type = "url")
