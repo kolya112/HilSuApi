@@ -10,21 +10,6 @@ namespace HilSuApi
     public partial class Common : HilariousHub
     {
         /// <summary>
-        /// Получить топ игроков по валюте
-        /// </summary>
-        /// <param name="limit">Лимит выданных пользователей</param>
-        /// <param name="currency">Валюта из топа игроков</param>
-        public static string TopPlayers(int limit, Currency currency)
-        {
-            if (limit > 100)
-                throw new TopPlayersLimitException();
-
-            HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
-            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
-            return answer;
-        }
-
-        /// <summary>
         /// Получить список команды проекта
         /// </summary>
         /// <returns></returns>
