@@ -68,4 +68,9 @@ namespace HilSuApi
     {
         public UserInfoCheckException() : base() { }
     }
+
+    public class GetWipeCheckException : Exception
+    {
+        public GetWipeCheckException() : base() { }
+    }
 }

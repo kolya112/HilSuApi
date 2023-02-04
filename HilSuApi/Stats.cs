@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using static HilSuApi.HilariousHub;
 
 namespace HilSuApi
 {
@@ -49,6 +50,20 @@ namespace HilSuApi
 
             HttpWebResponse request = Request("economy/top", $"limit={limit}&currency={currency.ToString().ToLower()}");
             string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            return JObject.Parse(answer).SelectToken("response").ToString();
+        }
+
+        /// <summary>
+        /// Получить время до ближайшего вайпа доп. миров на игровых серверах
+        /// </summary>
+        /// <returns></returns>
+        public static string GetWipe()
+        {
+            HttpWebResponse request = Request("stats/wipe", version: "v0");
+            string answer = new StreamReader(request.GetResponseStream()).ReadToEnd();
+            string status = JObject.Parse(answer).SelectToken("success").ToString();
+            if (status == "false")
+                throw new GetWipeCheckException();
             return JObject.Parse(answer).SelectToken("response").ToString();
         }
     }

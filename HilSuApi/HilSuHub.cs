@@ -16,7 +16,6 @@ using Newtonsoft.Json.Linq;
 // https://api.hil.su/v0/streams
 // https://api.hil.su/v0/user/reward/return - auth
 // https://api.hil.su/v0/stats/chat
-// https://api.hil.su/v0/stats/wipe
 // /v0/user/page - auth
 
 namespace HilSuApi
